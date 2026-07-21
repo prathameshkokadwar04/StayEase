@@ -1,0 +1,23 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+const listingSchema = new Schema({
+    title : {
+        type : String,
+        required : true,
+    },
+
+    description : String,
+    image : {
+        type: String,
+        default : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAk7kR_CrmFsDiID5ltQu8D1ztZQXX3PfIkZlVXu4SRg&s=10",
+        
+        set:(v) => v === ""? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAk7kR_CrmFsDiID5ltQu8D1ztZQXX3PfIkZlVXu4SRg&s=10" : v,
+    },
+    price : Number,
+    location : String,
+    country : String,
+});
+
+const Listing = mongoose.model("Listing",listingSchema);
+module.exports = Listing;
