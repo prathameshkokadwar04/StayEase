@@ -9,10 +9,16 @@ const listingSchema = new Schema({
 
     description : String,
     image : {
-        type: String,
-        default : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAk7kR_CrmFsDiID5ltQu8D1ztZQXX3PfIkZlVXu4SRg&s=10",
+        filename:{
+            type: String,
+            default: "listingimage",
+        },
+        url:{
+            type:String,
+            default : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAk7kR_CrmFsDiID5ltQu8D1ztZQXX3PfIkZlVXu4SRg&s=10",
         
         set:(v) => v === ""? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAk7kR_CrmFsDiID5ltQu8D1ztZQXX3PfIkZlVXu4SRg&s=10" : v,
+        },
     },
     price : Number,
     location : String,
