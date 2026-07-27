@@ -37,6 +37,7 @@ app.get("/listings",async (req,res) => {
 //new route
 
 app.get("/listings/new",(req,res)=>{
+    console.log("NEW ROUTE HIT")
     res.render("listings/new.ejs");
 })
 
@@ -49,13 +50,16 @@ app.get("/listings/:id",async(req,res)=>{
 });
 //create route 
 app.post("/listings",async (req,res) => {
-    let {title,description,price,location,country}= req.body;
+    let {title,description,image,price,location,country}= req.body.listing;
     let newListing = new Listing({
-        title:title,
-        description:description,
-        price:price,
-        location:location,
-        country:country
+        title,
+        description,
+        image:{
+            url:image
+        },
+        price,
+        location,
+        country
     });
     await newListing.save();
     res.redirect("/listings");
@@ -70,7 +74,7 @@ app.get("/listings/:id/edit",async(req,res) => {
 //update route
 app.put("/listings/:id",async(req,res) => {
     let{id} = req.params;
-    await Listing.findByIdAndUpdate(id, req.body);
+    await Listing.findByIdAndUpdate(id, req.body.listing);
     res.redirect(`/listings/${id}`);
 
 });

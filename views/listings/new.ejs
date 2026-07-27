@@ -1,21 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sayease </title>
-</head>
-<body>
+<% layout("/layouts/boilerplate")%>
+
     <h3>Create a new listing</h3>
     <form method="POST" action="/listings">
-        <input name="title" placeholder="Enter title" type="text"><br><br>
-        <textarea name="description" placeholder="Enter Description"></textarea><br><br>
-        <input name="image" placeholder="Enter image or url" type="text"><br><br>
-        <input name="price" type="number" placeholder="Enter price"><br><br>
-        <input name="country" placeholder="Enter country" type="text"><br><br>
-        <input name="location" placeholder="Enter location" type="text"><br><br>
-            <button>Add</button>
+    <div>
+        <label for="title" class="form-label">Title</label>
+        <input name="listing[title]" placeholder="Enter title" type="text" class="form-control">
+    </div>
+    <div>
+        <label for="description" class="form-label">Description</label>
+        <textarea name="listing[description]" placeholder="Enter Description" class="form-control"></textarea>
+    </div>
+    <div>
+        <label for="image" class="form-label">Image Link</label>
+        <input name="listing[image]" placeholder="Enter image or url" type="text" class="form-control">
+    </div>
+    <div>
+        <label for="price" class="form-label">Price</label>
+        <input name="listing[price]" type="number" placeholder="Enter price" class="form-control">
+    </div>
+    <div>
+        <label for="country" class="form-label">Country</label>
+        <input name="listing[country]" placeholder="Enter country" type="text" class="form-control">
+    </div>
+    <div>
+        <label for="location" class="form-label">Location</label>
+        <input name="listing[location]" placeholder="Enter location" type="text" class="form-control">
+    </div>
+            <button class="btn btn-dark">Add</button>
 
     </form>
 </body>
-</html>
