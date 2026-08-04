@@ -52,20 +52,21 @@ app.get("/listings/:id",wrapAsync(async(req,res)=>{
 }));
 //create route 
 app.post("/listings",wrapAsymc(async (req,res) => {
-    let {title,description,image,price,location,country}= req.body.listing;
-    let newListing = new Listing({
-        title,
-        description,
-        image:{
-            url:image
-        },
-        price,
-        location,
-        country
-    });
+    if(!req.body.listing){
+        throw new ExpressError(400,"Send valid data for listing");
+    }
+    const newListing = new Listing({...req.body.listing,
+    image: {
+        filename: "listingimage",
+        url: req.body.listing.image
+    }
+});
     await newListing.save();
     res.redirect("/listings");
-}));
+    })
+);
+    
+
 //Edit route
 app.get("/listings/:id/edit",wrapAsync(async(req,res) => {
     let {id} = req.params;
@@ -75,24 +76,23 @@ app.get("/listings/:id/edit",wrapAsync(async(req,res) => {
 
 //update route
 app.put("/listings/:id", wrapAsync(async (req, res) => {
+    console.log(req.body);
+    if(!req.body.listing){
+        throw new ExpressError(400,"Send valid data for listing");
+    }
     let { id } = req.params;
-
-    const { title, description, image, price, location, country } = req.body;
-
     await Listing.findByIdAndUpdate(id, {
-        title,
-        description,
-        image: {
-            filename: "listingimage",
-            url: image
-        },
-        price,
-        location,
-        country
-    });
-
+        ...req.body.listing,
+    image: {
+        filename: "listingimage",
+        url: req.body.listing.image
+    }
+});
     res.redirect(`/listings/${id}`);
-}));
+    })
+);
+
+    
 
 //delete route
 app.delete("/listings/:id",wrapAsync(async(req,res) =>{

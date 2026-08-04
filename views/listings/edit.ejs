@@ -5,7 +5,7 @@
     <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation">
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
-            <input name="title" 
+            <input name="listing[title]" 
             value="<%= listing.title%>" 
             type="text" 
             class="form-control" required >
@@ -13,7 +13,7 @@
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea name="description" 
+            <textarea name="listing[description]" 
             class="form-control" required><%= listing.description%>
             </textarea>
             <div class="invalid-feedback">Description should be short</div>
@@ -21,7 +21,7 @@
         
         <div class="mb-3">
             <label for="image" class="form-label">Image Link</label>
-            <input name="image"  
+            <input name="listing[image]"  
             value="<%= listing.image.url%>" 
             type="text" 
             class="form-control"
@@ -31,7 +31,7 @@
     <div class="row">
         <div class="mb-3 col-md-4">
             <label for="price" class="form-label">Price</label>
-            <input name="price" 
+            <input name="listing[price]" 
             type="number" 
             value="<%= listing.price%>"
             class = "form-control"
@@ -41,7 +41,7 @@
         
         <div class="mb-3 col-md-8">
             <label for="country" class="form-label">Enter Country</label>
-            <input name="country" 
+            <input name="listing[country]" 
             value="<%= listing.country%>" 
             type="text" 
             class="form-control"
@@ -51,7 +51,7 @@
     </div>  
         <div class="mb-3">
             <label for="location" class="form-label">Enter location</label>
-            <input name="location" 
+            <input name="listing[location]" 
             value="<%= listing.location%>" 
             type="text" 
             class="form-control"
@@ -64,4 +64,4 @@
     </form>
     </div>
 </div>
-<script src=".js/app.js"></script>
+<script src="/js/app.js"></script>
