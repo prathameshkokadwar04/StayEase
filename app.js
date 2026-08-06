@@ -8,6 +8,7 @@ const ejsMate = require("ejs-mate")
 const wrapAsymc = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const wrapAsync = require("./utils/wrapAsync.js");
+const {listingSchema} = require("./schema.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/Stayease";
 main()
@@ -32,6 +33,16 @@ app.get("/",(req,res) =>{
     res.send("Root file running");
 });
 
+const validateListing = (req,res,next) => {
+    let {error} = listingSchema.validate(req.body);
+    if(error){
+        let errMsg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(400, errMsg);
+    }else{
+        next();
+    }
+};
+
 // Index route
 app.get("/listings",wrapAsync(async (req,res) => {
     const allListings = await Listing.find({});
@@ -51,10 +62,7 @@ app.get("/listings/:id",wrapAsync(async(req,res)=>{
     res.render("listings/show.ejs",{listing});
 }));
 //create route 
-app.post("/listings",wrapAsymc(async (req,res) => {
-    if(!req.body.listing){
-        throw new ExpressError(400,"Send valid data for listing");
-    }
+app.post("/listings",validateListing,wrapAsymc(async (req,res) => {
     const newListing = new Listing({...req.body.listing,
     image: {
         filename: "listingimage",
@@ -75,11 +83,8 @@ app.get("/listings/:id/edit",wrapAsync(async(req,res) => {
 }));
 
 //update route
-app.put("/listings/:id", wrapAsync(async (req, res) => {
+app.put("/listings/:id",validateListing, wrapAsync(async (req, res) => {
     console.log(req.body);
-    if(!req.body.listing){
-        throw new ExpressError(400,"Send valid data for listing");
-    }
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, {
         ...req.body.listing,
@@ -123,7 +128,7 @@ app.all("/*splat",(req,res,next)=>{
 app.use((err,req,res,next) => {
     let{statusCode=500,message="Something went wrong"} = err;
 
-    res.status(statusCode).send(message);
+    res.status(statusCode).render("error.ejs", {err});
 });
 
 app.listen(8080,() => {
